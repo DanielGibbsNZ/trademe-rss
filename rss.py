@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+#
+# rss.py
+#
+# Generates RSS feeds for TradeMe searches.
+#
+# Author: Daniel Gibbs
+# Date: 21/12/2012
+#
+
 import sys
 import json
 import cgi
@@ -8,8 +17,11 @@ from urllib2 import urlopen
 from urllib import quote_plus
 from urllib import unquote_plus
 
+# Output an RSS feed for a given TradeMe search URL.
+# Uses the TradeMe API which has limitations on how many calls can be made per hour.
 def create_rss(search_url):
 	# Check for valid TradeMe search URL.
+	# TODO: Support vehicle, job, house search etc.
 	if not search_url.startswith("http://www.trademe.co.nz/Browse/SearchResults.aspx?"):
 		print "Content-type: text/html"
 		print
@@ -17,14 +29,15 @@ def create_rss(search_url):
 		return
 	search = search_url[search_url.find("?")+1:]
 
-	# Remove leading "&".
+	# Remove leading "&" and create a dict of search parametres.
 	if search.startswith("&"):
 		search = search[1:]
 	search_params = dict(x.split("=") for x in search.split("&"))
 
-	# Build API URL.
+	# Start creating API URL and query string.
 	api_url = "http://api.trademe.co.nz/v1/Search/General.json?expired=false"
 
+	# There's no point trying to create an RSS feed if there's no search string.
 	if "searchString" in search_params:
 		api_url += "&search_string=" + search_params["searchString"]
 	else:
@@ -72,8 +85,11 @@ def create_rss(search_url):
 		elif search_params["sort_order"] == "title_asc":
 			api_url += "&sort_order=TitleAsc"
 
+	# Perform the API call.
 	search_result = json.load(urlopen(api_url))
+	# TODO: Check status of the API call result.
 
+	# Output the RSS header and feed description.
 	print "Content-Type: application/xml"
 	print
 	print "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -89,6 +105,7 @@ def create_rss(search_url):
 	print "<link>%s</link>" % quote_plus(search_url)
 	print "</image>"
 
+	# For each item in the search result, output the RSS feed entry.
 	for item in search_result["List"]:
 		print "<item>"
 		print "<title>%s</title>" % cgi.escape(item["Title"])
@@ -122,7 +139,6 @@ def create_rss(search_url):
 			if not "HasReserve" in item or not item["HasReserve"]:
 				print cgi.escape("<strong>No Reserve</strong><br />")
 
-
 		print "</description>"
 		print "<pubDate>%s</pubDate>" % time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(float(item["StartDate"][6:-2])/1000))
 		if "CategoryName" in item:
@@ -133,6 +149,7 @@ def create_rss(search_url):
 	print "</channel>"
 	print "</rss>"
 
+# Get the TradeMe search URL from the request and output an RSS feed.
 form = cgi.FieldStorage()	
 search_url = form.getfirst('url', '')
 create_rss(search_url)
