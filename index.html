@@ -1,9 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>TradeMe RSS Generator</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="shortcut icon" href="http://www.trademe.co.nz/favicon.ico" />
+	</head>
 	<body>
-		<form method="get" action="rss.py">
-			<label for="url">TradeMe Search URL: </label><input type="text" name="url" id="url" />
-			<input type="submit" value="View RSS Feed" />
-		</form>
+		<img src="http://www.trademe.co.nz/images/3/common/retina-kev.gif" alt="TradeMe Logo" />
+		<div>
+			<h1>RSS Generator</h1>
+			<p>Perform a search on TradeMe, make sure you customize all of the options such as the search category and the result order, then copy and paste the URL in to the field below and click the button to generate an RSS feed for that search.</p>
+			<form method="get" action="rss.py">
+				<input type="text" name="url" id="url" value="" placeholder="TradeMe Search URL" autocomplete="off" autofocus="autofocus">
+				<button type="submit" value="View RSS Feed">View RSS Feed</button>
+			</form>
+		</div>
 	</body>
 </html>
