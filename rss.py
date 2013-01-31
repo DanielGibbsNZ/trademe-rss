@@ -16,10 +16,11 @@ import time
 from urllib2 import urlopen
 from urllib import quote_plus
 from urllib import unquote_plus
+from hashlib import md5
 
 # Output an RSS feed for a given TradeMe search URL.
 # Uses the TradeMe API which has limitations on how many calls can be made per hour.
-def create_rss(search_url):
+def create_rss(search_url, dont_show_relistings):
 	# Check for valid TradeMe search URL.
 	# TODO: Support vehicle, job, house search etc.
 	if not search_url.startswith("http://www.trademe.co.nz/Browse/SearchResults.aspx?"):
@@ -141,7 +142,10 @@ def create_rss(search_url):
 		print "<pubDate>%s</pubDate>" % time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(float(item["StartDate"][6:-2])/1000))
 		if "CategoryName" in item:
 			print "<category>%s</category>" % cgi.escape(item["CategoryName"])
-		print "<guid>%s</guid>" % item["ListingId"]
+		if dont_show_relistings:
+			print "<guid>%s</guid>" % md5(item["Title"]).hexdigest()
+		else:
+			print "<guid>%s</guid>" % item["ListingId"]			
 		print "</item>"
 
 	print "</channel>"
@@ -150,4 +154,5 @@ def create_rss(search_url):
 # Get the TradeMe search URL from the request and output an RSS feed.
 form = cgi.FieldStorage()	
 search_url = form.getfirst('url', '')
-create_rss(search_url)
+dont_show_relistings = form.getfirst('relistings', '')
+create_rss(search_url, dont_show_relistings)

@@ -70,7 +70,7 @@ button:active {
 	background: -ms-linear-gradient(top,#a85400,#d97200);
 	background: -moz-linear-gradient(center top,#a85400 0,#d97200 100%);
 }
-input {
+input[type="text"] {
 	font-size: 16px;
 	color: #333;
 	-webkit-box-shadow: none;
@@ -91,5 +91,18 @@ input {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	width: 75%;
+	width: 600px;
+}
+label {
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid transparent;
+	font-size: 16px;
+	color: #a85400;
+	-webkit-text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+	text-shadow: 0 1px 1px rgba(255,255,255,0.5);
 }
