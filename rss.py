@@ -5,7 +5,7 @@
 # Generates RSS feeds for TradeMe searches.
 #
 # Author: Daniel Gibbs
-# Date: 21/12/2012
+# Date: 31/01/2013
 #
 
 import sys
@@ -23,9 +23,8 @@ def create_rss(search_url):
 	# Check for valid TradeMe search URL.
 	# TODO: Support vehicle, job, house search etc.
 	if not search_url.startswith("http://www.trademe.co.nz/Browse/SearchResults.aspx?"):
-		print "Content-type: text/html"
+		print "Location: index.html"
 		print
-		print "Invalid URL: %s" % search_url
 		return
 	search = search_url[search_url.find("?")+1:]
 
@@ -41,9 +40,8 @@ def create_rss(search_url):
 	if "searchString" in search_params:
 		api_url += "&search_string=" + search_params["searchString"]
 	else:
-		print "Content-type: text/html"
+		print "Location: index.html"
 		print
-		print "No query string found."
 		return
 
 	if "searchregion" in search_params:
