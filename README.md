@@ -14,4 +14,4 @@ Requirements
 TradeMe Developer
 -----------------
 
-In order to use this script you will need to register an application with TradeMe; this can be done [here](https://www.trademe.co.nz/MyTradeMe/Api/DeveloperOptions.aspx). Once your application has been approved you will need to copy your consumer key and consumer secret into the script. You will then need to generate an OAuth token and OAuth secret (which can be done [here](http://developer.trademe.co.nz/api-overview/authentication/) and copy them into the script.
+In order to use this script you will need to register an application with TradeMe; this can be done [here](https://www.trademe.co.nz/MyTradeMe/Api/DeveloperOptions.aspx). Once your application has been approved you will need to copy your consumer key and consumer secret into the script. You will then need to generate an OAuth token and OAuth secret (which can be done [here](http://developer.trademe.co.nz/api-overview/authentication/)) and copy them into the script.
