@@ -44,7 +44,7 @@ def create_rss(search_url, dont_show_relistings):
 	search_params = dict(x.split("=") for x in search.split("&"))
 
 	# Start creating API URL and query string.
-	api_url = "https://api.trademe.co.nz/v1/Search/General.json?expired=false"
+	api_url = "https://api.trademe.co.nz/v1/Search/General.json?expired=false&photo_size=FullSize"
 
 	# There's no point trying to create an RSS feed if there's no search string.
 	if "searchString" in search_params:
