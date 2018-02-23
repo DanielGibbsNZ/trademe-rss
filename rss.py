@@ -114,8 +114,8 @@ def create_rss(search_url, dont_show_relistings):
 	print("</image>")
 
 	# For each item in the search result, output the RSS feed entry.
-	try:
-		for item in search_result["List"]:
+	for item in search_result["List"]:
+		try:
 			print("<item>")
 			print("<title>%s</title>" % cgi.escape(item["Title"]))
 			print("<link>http://www.trademe.co.nz/Browse/Listing.aspx?id=%s</link>" % item["ListingId"])
@@ -156,9 +156,10 @@ def create_rss(search_url, dont_show_relistings):
 				print("<guid>%s</guid>" % md5(item["Title"]).hexdigest())
 			else:
 				print("<guid>%s</guid>" % item["ListingId"])
+		except Exception as e:
+			sys.stderr.write("%s\n" % str(e))
+		finally:
 			print("</item>")
-	except Exception as e:
-		sys.stderr.write("%s\n" % str(e))
 
 	print("</channel>")
 	print("</rss>")
